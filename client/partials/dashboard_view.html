@@ -1,0 +1,26 @@
+
+<div ng-controller="dashboardController">
+	<h4>Dashboard | <a href="#/products">Products</a> | <a href="#/orders">Orders</a> | <a href="#/customers">Customers</a></h4>
+	<div class="container">
+		<div class="col-md-3">
+			<input type="text" ng-model="filter_name" placeholder="Search">
+		</div>
+		<div class="col-md-9 panel panel-default">
+			<div class="productBox" ng-repeat="product in products | filter: filter_name | orderBy: 'name' | limitTo: limit">
+				<img src='{{product.image}}' height="75" width="75">
+				<p><span ng-bind="product.name"></span></p>
+				<p>(<span ng-bind="product.supply"></span> left)</p>
+			</div>
+			<br>
+			<a href ng-click="incrementLimit()" style="margin-left:350px;">Show More...</a>
+			<h3><u>Recent Orders</u></h3>
+			<ul>
+				<li ng-repeat="order in orders | orderBy: '-date' | limitTo:3"><span ng-bind="order.customer + ' purchased ' + order.quantity + ' ' + order.product + ' (' + (order.date | date:'MMMM d, yyyy h:mm a') + ')'"></span></li>
+			</ul>
+			<h3><u>New Customers</u></h3>
+			<ul>
+				<li ng-repeat="customer in customers | orderBy: '-created' | limitTo:3"><span ng-bind="customer.name + ' joined the store (' + (customer.created | date:'MMMM d, yyyy h:mm a') + ')'"></span></li>
+			</ul>
+		</div>
+	</div>
+</div>
